@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://res.cdn.office.net/teams-js/2.19.0/js/MicrosoftTeams.min.js"></script>
+</head>
+<body>
+    <h3>正在初始化系統配置...</h3>
+    <script>
+        // 初始化 SDK
+        microsoftTeams.app.initialize().then(() => {
+            // 告訴 Teams 設定是有效的，讓「儲存」按鈕變為可點擊
+            microsoftTeams.pages.config.setValidityState(true);
+
+            // 當使用者點擊「儲存」時執行的動作
+            microsoftTeams.pages.config.registerOnSaveHandler((saveEvent) => {
+                microsoftTeams.pages.config.setConfig({
+                    suggestedDisplayName: "系統暫存區",
+                    entityId: "initial_state", // 這是你之後要用 API 覆蓋的地方
+                    contentUrl: window.location.href, // 隨便指向自己即可
+                    websiteUrl: window.location.href
+                }).then(() => {
+                    saveEvent.notifySuccess();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
